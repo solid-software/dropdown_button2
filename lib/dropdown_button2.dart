@@ -585,6 +585,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.isNoSelectedItem,
     this.selectedItemHighlightColor,
     this.elevation = 8,
+    required this.dropdownMenuOpenDuration,
     required this.capturedThemes,
     required this.style,
     required this.barrierDismissible,
@@ -640,12 +641,13 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn? searchMatchFn;
+  final Duration dropdownMenuOpenDuration;
 
   final List<double> itemHeights;
   ScrollController? scrollController;
 
   @override
-  Duration get transitionDuration => _kDropdownMenuDuration;
+  Duration get transitionDuration => dropdownMenuOpenDuration;
 
   @override
   final bool barrierDismissible;
@@ -1122,6 +1124,8 @@ class DropdownButton2<T> extends StatefulWidget {
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
+    this.dropdownMenuOpenDuration = _kDropdownMenuDuration,
+
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1205,6 +1209,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.searchInnerWidget,
     this.searchMatchFn,
     this.formFieldCallBack,
+    this.dropdownMenuOpenDuration = _kDropdownMenuDuration,
   }) : assert(
           items == null ||
               items.isEmpty ||
@@ -1519,6 +1524,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// DropdownButtonFormField2 to update the FormField's focus.
   final _OnMenuStateChangeFn? formFieldCallBack;
 
+  /// Defines the duration of the dropdown opening animation.
+  ///
+  /// The default value is [_kDropdownMenuDuration].
+  final Duration dropdownMenuOpenDuration;
+
   @override
   State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
 }
@@ -1720,6 +1730,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       searchController: widget.searchController,
       searchInnerWidget: widget.searchInnerWidget,
       searchMatchFn: widget.searchMatchFn,
+      dropdownMenuOpenDuration: widget.dropdownMenuOpenDuration,
     );
 
     _isMenuOpen = true;
